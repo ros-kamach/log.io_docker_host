@@ -1,11 +1,7 @@
-version: "2.4"
+version: "3.7"
 services:
   logio:
-    build: ./build
-    mem_limit: 256m
-    mem_reservation: 100m
-    cpus: '0.5'
-    cpuset: '0.25'  
+    build: ./build 
     environment:
       - "AUTH=enable"
       - "AUTH_LOGIN=admin10"
