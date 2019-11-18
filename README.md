@@ -1,5 +1,5 @@
 # log.io Real-time log monitoring in your browser
-This repository contains components for running either an operational log.io server and harvester setup for your docker conteiners logs stream. 
+This repository contains components for running either an operational log.io server and harvester setup for your docker conteiners log stream. 
 
 #### Attention:
 If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
