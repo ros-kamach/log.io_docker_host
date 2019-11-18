@@ -23,9 +23,9 @@ FILE=$HOME/conf/harvester.conf
 if test -f "$FILE"; then	
     echo "$FILE exist"	
     cp $HOME/conf/harvester.conf /home/logio/.log.io/harvester.conf
-    for val in $( cat $HOME/pods/conteiners.list ); do
-        watch -n 1 touch ./logs/${val}.log >/dev/null &
-    done &
+    # for val in $( cat $HOME/pods/conteiners.list ); do
+    #     watch -n 1 touch ./logs/${val}.log >/dev/null &
+    # done &
 fi
 
 while sleep 60
