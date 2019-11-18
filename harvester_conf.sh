@@ -111,8 +111,12 @@ if [ -d "${CONFIG_DIR}" ]
     then
         rm -rf ${CONFIG_DIR}
         mkdir -p ${CONFIG_DIR}/logs ${CONFIG_DIR}/pods ${CONFIG_DIR}/conf ${CONFIG_DIR}/pid
+        chown -R :1000 ${CONFIG_DIR}
+        chmod -R 755 ${CONFIG_DIR}
     else
         mkdir -p ${CONFIG_DIR}/logs ${CONFIG_DIR}/pods ${CONFIG_DIR}/conf ${CONFIG_DIR}/pid
+        chown -R :1000 ${CONFIG_DIR}
+        chmod -R 755 ${CONFIG_DIR}
 fi
 ##################################
 ###Check Conteiner list ###
