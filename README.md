@@ -25,7 +25,7 @@ If on docker host conteiners stops or new contreiners runs, script will rediscov
 | ```LOGS_CLEAN_PERIOD```      |  ```"3600"```   | interval of clearning logs from steam files |
 ***
 # To implement:
-clone the repository<img src="https://help.github.com/assets/images/help/repository/clone-repo-clone-url-button.png" alt="Thunder" width="20%"/>
+clone the repository<img src="https://help.github.com/assets/images/help/repository/clone-repo-clone-url-button.png" alt="Thunder" width="20%"/> and enter in cloned directory
 ***
 ```
 $ bash ./harvester_conf.sh
