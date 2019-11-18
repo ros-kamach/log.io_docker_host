@@ -1,9 +1,8 @@
 # log.io Real-time log monitoring in your browser
 This repository contains components for running either an operational log.io server and harvester setup for your docker conteiners logs stream. 
 
-#### Before begin:
+#### Attention:
 If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
-clone the repository<img src="https://help.github.com/assets/images/help/repository/clone-repo-clone-url-button.png" alt="Thunder" width="20%"/>
 
 #### docker-compose properties:
 ***
@@ -26,7 +25,7 @@ clone the repository<img src="https://help.github.com/assets/images/help/reposit
 | ```LOGS_CLEAN_PERIOD```      |  ```"3600"```   | interval of clearning logs from steam files |
 ***
 # To implement:
-
+clone the repository<img src="https://help.github.com/assets/images/help/repository/clone-repo-clone-url-button.png" alt="Thunder" width="20%"/>
 ***
 ```
 $ bash ./harvester_conf.sh
