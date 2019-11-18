@@ -40,7 +40,7 @@ EOF
 log_clearn () {
 while sleep ${1}
 do
-kill -9 $( echo `ps | grep -v grep | grep "docker logs" | awk '{print$1}'` ) 2>/dev/null
+kill -9 $( ps -ef | grep -v grep | grep "docker logs" | awk '{print$2}' ) 2>/dev/null
 done &
 }
 
@@ -62,7 +62,7 @@ if [ -f "./$1/pid/pid.tmp" ]
         fi
 fi
 echo ${PID_CHECK_KILL} >> ./$1/pid/pid.tmp
-files=$(ps aux  | grep -v grep | grep ${3} | grep "docker logs" | awk '{print$2}')
+files=$(ps -ef  | grep -v grep | grep "docker logs" | grep ${3} | awk '{print$2}')
     if [[ $? != 0 ]] 
     then
         echo "Command failed."
