@@ -29,7 +29,7 @@ RUN \
     rm -rf /node-${VERSION}* /tmp/* /var/cache/apk/* \
     /usr/share/man/* /usr/share/doc /root/.npm /root/.node-gyp /root/.config \
     /usr/lib/node_modules/npm/man /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html /usr/lib/node_modules/npm/scripts && \
-    { rm -rf /root/.gnupg || true; } &&\
+    { rm -rf /root/.gnupg || true; } && \
     #Installing Log.io
     adduser -s /bin/false -g "" -D logio && \
     export USER=logio && export HOME=/home/logio && \

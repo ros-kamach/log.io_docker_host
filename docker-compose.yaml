@@ -1,13 +1,18 @@
-logio_server:
+version: "2.4"
+services:
+  logio:
     build: ./build
-    restart: always
+    mem_limit: 256m
+    mem_reservation: 100m
+    cpus: '0.5'
+    cpuset: '0.25'  
     environment:
-        - "AUTH=enable"
-        - "AUTH_LOGIN=admin10"
-        - "AUTH_PASS=qwerty13q"
+      - "AUTH=enable"
+      - "AUTH_LOGIN=admin10"
+      - "AUTH_PASS=qwerty13q"
     ports:
         - "28778:28778"
     volumes:
         - ./logio_scan_files/conf:/home/logio/conf
         - ./logio_scan_files/pods:/home/logio/pods
-        - ./logio_scan_files/logs:/home/logio/logs
+        - ./logio_scan_files/logs:/home/logio/logs    

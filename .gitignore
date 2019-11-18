@@ -16,6 +16,5 @@ database/
 *.swm
 *.zip
 Untitled-12
-*.tar.gz
 .varnish.yaml
 logio_scan_files/
