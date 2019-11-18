@@ -1,5 +1,5 @@
 logio_server:
-    build: ./build/logio
+    build: ./build
     restart: always
     environment:
         - "AUTH=enable"
