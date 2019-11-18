@@ -31,7 +31,7 @@ clone the repository<img src="https://help.github.com/assets/images/help/reposit
 $ bash ./harvester_conf.sh
 ```
 ```
-$ docker-compose-up --build
+$ docker-compose up --build
 ```
 ***
 
