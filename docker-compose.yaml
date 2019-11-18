@@ -1,0 +1,13 @@
+logio_server:
+    build: ./build/logio
+    restart: always
+    environment:
+        - "AUTH=enable"
+        - "AUTH_LOGIN=admin10"
+        - "AUTH_PASS=qwerty13q"
+    ports:
+        - "28778:28778"
+    volumes:
+        - ./logio_scan_files/conf:/home/logio/conf
+        - ./logio_scan_files/pods:/home/logio/pods
+        - ./logio_scan_files/logs:/home/logio/logs
