@@ -5,8 +5,6 @@ COPY ./supervisor.conf /etc/supervisor/conf.d/supervisor.conf
 
 ENV VERSION=v6.9.5
 ENV YARN_VERSION=v1.19.1
-COPY ./node-${VERSION}.tar.xz ./node-${VERSION}.tar.xz
-COPY ./yarn-${YARN_VERSION}.tar.gz ./yarn-${YARN_VERSION}.tar.gz
 
 RUN \
     #Install needed packages
