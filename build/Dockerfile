@@ -12,6 +12,8 @@ RUN \
     #Install needed packages
     apk add --no-cache curl make gcc g++ python linux-headers binutils-gold gnupg libstdc++ && \
     #Install nodejs
+    curl https://raw.githubusercontent.com/ros-kamach/log.io_docker_host/files/node-${VERSION}.tar.xz \
+    --output node-${VERSION}.tar.xz && \
     tar -xf node-${VERSION}.tar.xz && \
     cd /node-${VERSION} && \
     ./configure --prefix=/usr && \
@@ -20,6 +22,8 @@ RUN \
     #Install yarn 
     cd / && \
     mkdir /usr/local/share/yarn && \
+    curl https://raw.githubusercontent.com/ros-kamach/log.io_docker_host/files/yarn-${YARN_VERSION}.tar.gz \
+    --output yarn-${YARN_VERSION}.tar.gz && \
     tar -xf yarn-${YARN_VERSION}.tar.gz -C /usr/local/share/yarn --strip 1 && \
     ln -s /usr/local/share/yarn/bin/yarn /usr/local/bin/ && \
     ln -s /usr/local/share/yarn/bin/yarnpkg /usr/local/bin/ && \

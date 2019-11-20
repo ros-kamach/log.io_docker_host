@@ -1,14 +1,17 @@
 version: "3.7"
 services:
   logio:
-    build: ./build 
+    build: ./build
+    privileged: true
+    restart: always
     environment:
-      - "AUTH=enable"
-      - "AUTH_LOGIN=admin10"
-      - "AUTH_PASS=qwerty13q"
+      - AUTH=enable
+      - AUTH_LOGIN=admin10
+      - AUTH_PASS=qwerty13q
     ports:
         - "28778:28778"
     volumes:
         - ./logio_scan_files/conf:/home/logio/conf
-        - ./logio_scan_files/pods:/home/logio/pods
-        - ./logio_scan_files/logs:/home/logio/logs    
+        - ./logio_scan_files/pods:/home/logio/pods 
+        - ./logio_scan_files/logs:/home/logio/logs
+        - ./logio_scan_files/trigger:/home/logio/trigger

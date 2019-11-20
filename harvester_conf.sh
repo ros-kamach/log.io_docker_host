@@ -3,7 +3,7 @@
 CONFIG_DIR="logio_scan_files"
 LOGIO_SERVER_URL="0.0.0.0"
 SINCE_TIME=1h
-LOGS_CLEAN_PERIOD=3600
+LOGS_CLEAN_PERIOD=200
 # GREP_POD_NAMES=mysql
 SKIP_POD_NAMES=logio
 ##################################
@@ -40,28 +40,45 @@ EOF
 log_clearn () {
 while sleep ${1}
 do
+echo $BASHPID > ./${CONFIG_DIR}/pid/kill_docker_logs.tmp
+cat ./${CONFIG_DIR}/pid/kill_docker_logs.tmp
 kill -9 $( ps -ef | grep -v grep | grep "docker logs" | awk '{print$2}' ) 2>/dev/null
 done &
 }
 
 check_pid_kill () {
-while sleep 30
+while sleep 25
 do
-PID_CHECK_KILL=$!
+PID_CHECK_KILL=$BASHPID
 if [ -f "./$1/pid/pid.tmp" ]
     then
         COUNT_LINES_PID=$(cat ./$1/pid/pid.tmp | wc -l 2>/dev/null )
         COUNT_LINES_POD=$(cat ${4} | wc -l)
+        echo COUNT_LINES_PID=$COUNT_LINES_PID
+        echo COUNT_LINES_POD=$COUNT_LINES_POD
+        if [ "$COUNT_LINES_PID" -lt "$COUNT_LINES_POD" ]
+            then
+                echo "-lt append"
+                echo ${PID_CHECK_KILL} >> ./$1/pid/pid.tmp
+
+        fi
         if [ "$COUNT_LINES_PID" -eq "$COUNT_LINES_POD" ]
             then
+                echo "-eq copy and clearn"
                 cp ./$1/pid/pid.tmp ./$1/pid/check_log_live.tmp
+                rm ./$1/pid/pid.tmp
+                cat ./$1/pid/check_log_live.tmp
         fi
-        if [ "$COUNT_LINES_PID" -ge "$COUNT_LINES_POD" ]
+        if [ "$COUNT_LINES_PID" -gt "$COUNT_LINES_POD" ]
             then
-                rm -f ./$1/pid/pid.tmp
+                echo "-gt clearn"
+                rm ./$1/pid/pid.tmp
+
         fi
+    else
+        echo "pid kill else"
+        echo ${PID_CHECK_KILL} > ./$1/pid/pid.tmp
 fi
-echo ${PID_CHECK_KILL} >> ./$1/pid/pid.tmp
 files=$(ps -ef  | grep -v grep | grep "docker logs" | grep ${3} | awk '{print$2}')
     if [[ $? != 0 ]] 
     then
@@ -110,13 +127,13 @@ fi
 if [ -d "${CONFIG_DIR}" ]
     then
         rm -rf ${CONFIG_DIR}
-        mkdir -p ${CONFIG_DIR}/logs ${CONFIG_DIR}/pods ${CONFIG_DIR}/conf ${CONFIG_DIR}/pid
-        chown -R :1000 ${CONFIG_DIR}
-        chmod -R 755 ${CONFIG_DIR}
+        mkdir -p ${CONFIG_DIR}/logs ${CONFIG_DIR}/pods ${CONFIG_DIR}/conf ${CONFIG_DIR}/pid ${CONFIG_DIR}/trigger
+        # chown -R :1000 ${CONFIG_DIR}
+        # chmod -R 755 ${CONFIG_DIR}
     else
-        mkdir -p ${CONFIG_DIR}/logs ${CONFIG_DIR}/pods ${CONFIG_DIR}/conf ${CONFIG_DIR}/pid
-        chown -R :1000 ${CONFIG_DIR}
-        chmod -R 755 ${CONFIG_DIR}
+        mkdir -p ${CONFIG_DIR}/logs ${CONFIG_DIR}/pods ${CONFIG_DIR}/conf ${CONFIG_DIR}/pid ${CONFIG_DIR}/trigger
+        # chown -R :1000 ${CONFIG_DIR}
+        # chmod -R 755 ${CONFIG_DIR}
 fi
 ##################################
 ###Check Conteiner list ###
@@ -169,7 +186,7 @@ pod_discovery ${SINCE_TIME} ${CONFIG_DIR} ${PREFIX} ${SKIP_POD_NAMES} ${GREP_POD
 pod_logs ${CONF_FILE_START} ${SINCE_TIME_COMMAND} ${CONFIG_DIR} ${FILE_1}
 constructor_harvester_conf_end ${CONF_FILE_START} ${LOGIO_SERVER_URL}
 
-while sleep 40
+while sleep 35
 do
 PREFIX="apply"
 FILE_2="./${CONFIG_DIR}/pods/conteiners_compare.list"
@@ -178,15 +195,16 @@ pod_discovery $SINCE_TIME ${CONFIG_DIR} ${PREFIX} ${SKIP_POD_NAMES} ${GREP_POD_N
 
     if cmp -s "${FILE_1}" "${FILE_2}"; then
         RECREATE_LOGS_STREAM="no"
+        echo "same conteiner list" 
 
     else
         printf 'different\n'
         for pid in $( cat ./${CONFIG_DIR}/pid/check_log_live.tmp ); do kill -9 $pid; done
         for pid in $( cat ./${CONFIG_DIR}/pid/kill_docker_logs.tmp ); do kill -9 $pid; done
         for pid in $( ps -ef | grep -v grep | grep "docker logs" | awk '{print $2}' ); do kill -9 $pid; done
-        rm ./${CONFIG_DIR}/pid/*
-        rm -rf ./${CONFIG_DIR}/logs/
-        mkdir ./${CONFIG_DIR}/logs
+        rm ./${CONFIG_DIR}/pid/* ./${CONFIG_DIR}/logs/*
+        touch ./${CONFIG_DIR}/trigger/restart_if_this_file_exist
+        chmod 777 ./${CONFIG_DIR}/trigger/restart_if_this_file_exist
         CONF_FILE_START="./${CONFIG_DIR}/conf/harvester_compare.conf"
         RECREATE_LOGS_STREAM="apply"
         pod_logs ${CONF_FILE_START} ${SINCE_TIME_COMMAND} ${CONFIG_DIR} ${FILE_2} ${RECREATE_LOGS_STREAM}
