@@ -28,10 +28,16 @@ If on docker host conteiners stops or new contreiners runs, script will rediscov
 clone the repository<img src="https://help.github.com/assets/images/help/repository/clone-repo-clone-url-button.png" alt="Thunder" width="20%"/> and go to cloned directory
 ***
 ```
+$ git clone https://github.com/ros-kamach/log.io_docker_host.git && cd ./log.io_docker_host
+```
+```
+$ docker-compose build
+```
+```
 $ bash ./harvester_conf.sh
 ```
 ```
-$ docker-compose up -d
+$ docker-compose up -d --compatibility up
 ```
 ***
 
