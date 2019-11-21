@@ -217,7 +217,6 @@ pod_discovery $SINCE_TIME ${CONFIG_DIR} ${PREFIX} ${SKIP_POD_NAMES} ${GREP_POD_N
 
     if  [ -f "${CONFIG_DIR}/trigger/restart_if_this_file_exist" ]
     then
-        echo "restart_if_this_file_exist"
         retries_counter=0
         max_retries=65
         until [ ! -f "${CONFIG_DIR}/trigger/restart_if_this_file_exist" ]; do
