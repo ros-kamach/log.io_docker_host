@@ -2,6 +2,7 @@
 This repository contains components for running either an operational log.io server and harvester setup for your docker conteiners log stream. 
 
 #### Attention:
+User that runs script must have privileges to run docker without sudo
 If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
 
 #### docker-compose properties:
@@ -25,7 +26,6 @@ If on docker host conteiners stops or new contreiners runs, script will rediscov
 | ```LOGS_CLEAN_PERIOD```      |  ```"3600"```   | interval of clearning logs from steam files |
 ***
 # To implement:
-clone the repository<img src="https://help.github.com/assets/images/help/repository/clone-repo-clone-url-button.png" alt="Thunder" width="20%"/> and go to cloned directory
 ***
 ```
 $ git clone https://github.com/ros-kamach/log.io_docker_host.git && cd ./log.io_docker_host
