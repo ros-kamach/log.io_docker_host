@@ -3,7 +3,7 @@ This repository contains components for running either an operational log.io ser
 ***
 #### Attention:
 User that runs script must have privileges to run docker without sudo.
-
+***You must run harvester_conf.sh***. It discovers and streams docker logs.
 If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
 ***
 !!!!
@@ -18,7 +18,11 @@ to
     image: roskamach/logio_alpine_docker:latest
 ```
 ***
-
+To kill all processes that ***harvester_conf.sh*** made run
+```
+$ script_processes_killer.sh
+```
+***
 #### docker-compose properties:
 ***
 | Property                   | Default Value   | Description                        |
