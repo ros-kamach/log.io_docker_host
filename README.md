@@ -5,7 +5,7 @@ This repository contains components for running either an operational log.io ser
 ***You must run harvester_conf.sh***.User that runs script must have privileges to run docker without sudo. It discovers and streams docker logs. If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
 ***
 ***!!!!***
-Build this Docker image may take about 1h, if you dont'n need your own "secure" build, you could run it from prebuilded image on my docker hub,
+Building of this Docker image may take about 1h, if you dont'n need your own "secure" build, you could run it from prebuilded image on my docker hub,
 cange in docker-compose.yaml :
 ```
     build:
