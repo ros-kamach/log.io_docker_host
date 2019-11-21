@@ -186,7 +186,7 @@ pod_discovery ${SINCE_TIME} ${CONFIG_DIR} ${PREFIX} ${SKIP_POD_NAMES} ${GREP_POD
 pod_logs ${CONF_FILE_START} ${SINCE_TIME_COMMAND} ${CONFIG_DIR} ${FILE_1}
 constructor_harvester_conf_end ${CONF_FILE_START} ${LOGIO_SERVER_URL}
 
-while sleep 120
+while sleep 70
 do
 PREFIX="apply"
 FILE_2="./${CONFIG_DIR}/pods/conteiners_compare.list"
