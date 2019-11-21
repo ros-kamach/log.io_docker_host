@@ -66,8 +66,8 @@ if [ -f "./$1/pid/pid.tmp" ]
                 # echo "-eq copy and clearn"
                 cp ./$1/pid/pid.tmp ./$1/pid/check_log_live.tmp
                 rm ./$1/pid/pid.tmp 2>/dev/null
-                echo "#########"
-                cat ./$1/pid/check_log_live.tmp
+#                 echo "#########"
+#                 cat ./$1/pid/check_log_live.tmp
         fi
         if [ "$COUNT_LINES_PID" -gt "$COUNT_LINES_POD" ]
             then
