@@ -1,10 +1,23 @@
 # log.io Real-time log monitoring in your browser
 This repository contains components for running either an operational log.io server and harvester setup for your docker conteiners log stream. 
-
+***
 #### Attention:
 User that runs script must have privileges to run docker without sudo.
 
 If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
+***
+!!!!
+Docker build take about 1h, if you dont'n need your build, you could run it from prebuilded image on docker hub,
+cange:
+```
+    build:
+     context: ./build
+```
+to
+```
+    image: roskamach/logio_alpine_docker:latest
+```
+***
 
 #### docker-compose properties:
 ***
