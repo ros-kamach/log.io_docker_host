@@ -3,7 +3,7 @@
 CONFIG_DIR="logio_scan_files"
 LOGIO_SERVER_URL="0.0.0.0"
 SINCE_TIME=1h
-LOGS_CLEAN_PERIOD=200
+LOGS_CLEAN_PERIOD=3600
 # GREP_POD_NAMES=mysql
 SKIP_POD_NAMES=logio
 ##################################
@@ -41,7 +41,6 @@ log_clearn () {
 while sleep ${1}
 do
 echo $BASHPID > ./${CONFIG_DIR}/pid/kill_docker_logs.tmp
-cat ./${CONFIG_DIR}/pid/kill_docker_logs.tmp
 kill -9 $( ps -ef | grep -v grep | grep "docker logs" | awk '{print$2}' ) 2>/dev/null
 done &
 }
@@ -67,6 +66,7 @@ if [ -f "./$1/pid/pid.tmp" ]
                 # echo "-eq copy and clearn"
                 cp ./$1/pid/pid.tmp ./$1/pid/check_log_live.tmp
                 rm ./$1/pid/pid.tmp 2>/dev/null
+                echo "#########"
                 cat ./$1/pid/check_log_live.tmp
         fi
         if [ "$COUNT_LINES_PID" -gt "$COUNT_LINES_POD" ]
@@ -139,7 +139,7 @@ fi
 ###Check Conteiner list ###
 ##################################
 pod_discovery () {
-CONTEINER_LIST=$( docker ps --format '{{.Names}}' )
+CONTEINER_LIST=$( docker ps --format '{{.Names}}' | grep -v upbeat_pascal )
 NODE_NAME=$(hostname)
 
 if [ ! -z "${1}" ]
@@ -186,7 +186,7 @@ pod_discovery ${SINCE_TIME} ${CONFIG_DIR} ${PREFIX} ${SKIP_POD_NAMES} ${GREP_POD
 pod_logs ${CONF_FILE_START} ${SINCE_TIME_COMMAND} ${CONFIG_DIR} ${FILE_1}
 constructor_harvester_conf_end ${CONF_FILE_START} ${LOGIO_SERVER_URL}
 
-while sleep 35
+while sleep 120
 do
 PREFIX="apply"
 FILE_2="./${CONFIG_DIR}/pods/conteiners_compare.list"
@@ -213,6 +213,21 @@ pod_discovery $SINCE_TIME ${CONFIG_DIR} ${PREFIX} ${SKIP_POD_NAMES} ${GREP_POD_N
         cp ${FILE_2} ${FILE_1}
         log_clearn ${LOGS_CLEAN_PERIOD}
         echo $! > ./${CONFIG_DIR}/pid/kill_docker_logs.tmp
+    fi
+
+    if  [ -f "${CONFIG_DIR}/trigger/restart_if_this_file_exist" ]
+    then
+        echo "restart_if_this_file_exist"
+        retries_counter=0
+        max_retries=65
+        until [ ! -f "${CONFIG_DIR}/trigger/restart_if_this_file_exist" ]; do
+            if [ ${retries_counter} -eq ${max_retries} ]
+            then
+            rm ${CONFIG_DIR}/trigger/restart_if_this_file_exist
+            fi
+            retries_counter=$(($retries_counter+1))
+            sleep 1
+        done
     fi
 done &
 
