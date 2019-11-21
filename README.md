@@ -2,11 +2,9 @@
 This repository contains components for running either an operational log.io server and harvester setup for your docker conteiners log stream. 
 ***
 #### Attention:
-User that runs script must have privileges to run docker without sudo.
-***You must run harvester_conf.sh***. It discovers and streams docker logs.
-If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
+***You must run harvester_conf.sh***.User that runs script must have privileges to run docker without sudo. It discovers and streams docker logs. If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
 ***
-!!!!
+***!!!!***
 Docker build take about 1h, if you dont'n need your build, you could run it from prebuilded image on docker hub,
 cange in docker-compose.yaml :
 ```
@@ -18,9 +16,24 @@ to
     image: roskamach/logio_alpine_docker:latest
 ```
 ***
-To kill all processes that ***harvester_conf.sh*** made run
+To kill all processes that ***harvester_conf.sh*** run:
 ```
 $ script_processes_killer.sh
+```
+***
+# To implement:
+***
+```
+$ git clone https://github.com/ros-kamach/log.io_docker_host.git && cd ./log.io_docker_host
+```
+```
+$ docker-compose build
+```
+```
+$ bash ./harvester_conf.sh
+```
+```
+$ docker-compose --compatibility up -d
 ```
 ***
 #### docker-compose properties:
@@ -42,21 +55,6 @@ $ script_processes_killer.sh
 | ```SKIP_POD_NAMES```          |               ```"logio"```               | skip conteiners names with literal matched by pattern |
 | ```CONFIG_DIR```        |  ```"logio_scan_files"```     | name of directory where scripts files will stores  |
 | ```LOGS_CLEAN_PERIOD```      |  ```"3600"```   | interval of clearning logs from steam files |
-***
-# To implement:
-***
-```
-$ git clone https://github.com/ros-kamach/log.io_docker_host.git && cd ./log.io_docker_host
-```
-```
-$ docker-compose build
-```
-```
-$ bash ./harvester_conf.sh
-```
-```
-$ docker-compose --compatibility up -d
-```
 ***
 
 # How does it work?
