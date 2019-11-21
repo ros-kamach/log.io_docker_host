@@ -8,7 +8,7 @@ If on docker host conteiners stops or new contreiners runs, script will rediscov
 ***
 !!!!
 Docker build take about 1h, if you dont'n need your build, you could run it from prebuilded image on docker hub,
-cange:
+cange in docker-compose.yaml :
 ```
     build:
      context: ./build
