@@ -54,29 +54,29 @@ if [ -f "./$1/pid/pid.tmp" ]
     then
         COUNT_LINES_PID=$(cat ./$1/pid/pid.tmp | wc -l 2>/dev/null )
         COUNT_LINES_POD=$(cat ${4} | wc -l)
-        echo COUNT_LINES_PID=$COUNT_LINES_PID
-        echo COUNT_LINES_POD=$COUNT_LINES_POD
+        # echo COUNT_LINES_PID=$COUNT_LINES_PID
+        # echo COUNT_LINES_POD=$COUNT_LINES_POD
         if [ "$COUNT_LINES_PID" -lt "$COUNT_LINES_POD" ]
             then
-                echo "-lt append"
+                # echo "-lt append"
                 echo ${PID_CHECK_KILL} >> ./$1/pid/pid.tmp
 
         fi
         if [ "$COUNT_LINES_PID" -eq "$COUNT_LINES_POD" ]
             then
-                echo "-eq copy and clearn"
+                # echo "-eq copy and clearn"
                 cp ./$1/pid/pid.tmp ./$1/pid/check_log_live.tmp
-                rm ./$1/pid/pid.tmp
+                rm ./$1/pid/pid.tmp 2>/dev/null
                 cat ./$1/pid/check_log_live.tmp
         fi
         if [ "$COUNT_LINES_PID" -gt "$COUNT_LINES_POD" ]
             then
-                echo "-gt clearn"
-                rm ./$1/pid/pid.tmp
+                # echo "-gt clearn"
+                rm ./$1/pid/pid.tmp 2>/dev/null
 
         fi
     else
-        echo "pid kill else"
+        # echo "pid kill else"
         echo ${PID_CHECK_KILL} > ./$1/pid/pid.tmp
 fi
 files=$(ps -ef  | grep -v grep | grep "docker logs" | grep ${3} | awk '{print$2}')
@@ -195,14 +195,14 @@ pod_discovery $SINCE_TIME ${CONFIG_DIR} ${PREFIX} ${SKIP_POD_NAMES} ${GREP_POD_N
 
     if cmp -s "${FILE_1}" "${FILE_2}"; then
         RECREATE_LOGS_STREAM="no"
-        echo "same conteiner list" 
+        # echo "same conteiner list" 
 
     else
-        printf 'different\n'
+        printf 'Compare of conteiner list different\n'
         for pid in $( cat ./${CONFIG_DIR}/pid/check_log_live.tmp ); do kill -9 $pid; done
         for pid in $( cat ./${CONFIG_DIR}/pid/kill_docker_logs.tmp ); do kill -9 $pid; done
         for pid in $( ps -ef | grep -v grep | grep "docker logs" | awk '{print $2}' ); do kill -9 $pid; done
-        rm ./${CONFIG_DIR}/pid/* ./${CONFIG_DIR}/logs/*
+        rm ./${CONFIG_DIR}/pid/* ./${CONFIG_DIR}/logs/* 2>/dev/null
         touch ./${CONFIG_DIR}/trigger/restart_if_this_file_exist
         chmod 777 ./${CONFIG_DIR}/trigger/restart_if_this_file_exist
         CONF_FILE_START="./${CONFIG_DIR}/conf/harvester_compare.conf"

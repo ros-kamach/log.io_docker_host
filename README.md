@@ -37,7 +37,7 @@ $ docker-compose build
 $ bash ./harvester_conf.sh
 ```
 ```
-$ docker-compose up -d --compatibility up
+$ docker-compose --compatibility up -d
 ```
 ***
 
