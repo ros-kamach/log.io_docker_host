@@ -2,7 +2,8 @@
 This repository contains components for running either an operational log.io server and harvester setup for your docker conteiners log stream. 
 
 #### Attention:
-User that runs script must have privileges to run docker without sudo
+User that runs script must have privileges to run docker without sudo.
+
 If on docker host conteiners stops or new contreiners runs, script will rediscover and stream to log.io WEB.
 
 #### docker-compose properties:
