@@ -1,5 +1,7 @@
 FROM alpine:3.7
 
+MAINTAINER Rostylav Kamach <ros.kamach@gmail.com>
+
 RUN \
     #Install needed packages
     apk add --no-cache curl make gcc g++ python linux-headers binutils-gold gnupg libstdc++ && \
